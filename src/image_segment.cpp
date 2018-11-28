@@ -3,11 +3,12 @@
 int main(int argc,char **argv)
 {
    ros::init(argc, argv, "laser_image");
-   ros::NodeHandle nh("~");
-   nh.param<int>("begin_Rayid",begin_ray_id_,150);
+   ros::NodeHandle nh_("");
+   ros::NodeHandle nh_local_("~");
+   nh_local_.param<int>("begin_Rayid",begin_ray_id_,150);
    ROS_INFO("start cropped_detection_Image & insight_laser_seg subscribe");
-   message_filters::Subscriber<laser_segment::Insight_lidar_segments> segment_sub(nh, topic_laser_seg_, 1);         
-   message_filters::Subscriber<sensor_msgs::Image> image_sub(nh,topic_detect_img_, 1); 
+   message_filters::Subscriber<laser_segment::Insight_lidar_segments> segment_sub(nh_, topic_laser_seg_, 1);         
+   message_filters::Subscriber<sensor_msgs::Image> image_sub(nh_,topic_detect_img_, 1); 
    message_filters::Synchronizer<sync_policy_classification> sync(sync_policy_classification(10),segment_sub,image_sub);
    sync.registerCallback(boost::bind(&callback, _1, _2));   // 回调
    ros::spin();
