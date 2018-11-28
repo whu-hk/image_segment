@@ -50,7 +50,7 @@ double p_scanner_angle_increment_ = 0.0174532923847;
 int p_ranges_num_ = 360;
 
 
-void reprojectTo_show(cv::Mat img,std::vector<Eigen::Vector3f> laser_points,std::vector<int> laser_idx);
+void reprojectTo_show(cv::Mat img,std::vector<Eigen::Vector3f> laser_points,std::vector<int> laser_idx,int i);
 void callback(const laser_segment::Insight_lidar_segmentsConstPtr &msg_segments,
 			  const sensor_msgs::ImageConstPtr &msg_Img);
  

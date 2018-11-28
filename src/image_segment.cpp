@@ -55,7 +55,10 @@ void callback(const laser_segment::Insight_lidar_segmentsConstPtr &msg_segments,
 					laser_idx.push_back(ray_id_[j]);
 				}
 			}
-			reprojectTo_show(img,laser_points,laser_idx);
+			if(laser_points.size() > 0)
+			{
+				reprojectTo_show(img,laser_points,laser_idx,i);
+			}
 			laser_points.clear();
 			laser_idx.clear();
 		}
@@ -65,7 +68,7 @@ void callback(const laser_segment::Insight_lidar_segmentsConstPtr &msg_segments,
     cv::waitKey(1);
 }
 
-void reprojectTo_show(cv::Mat img,std::vector<Eigen::Vector3f> laser_points,std::vector<int> laser_idx)
+void reprojectTo_show(cv::Mat img,std::vector<Eigen::Vector3f> laser_points,std::vector<int> laser_idx,int seg_num)
 {
     std::vector<Point2d> pts_uv;
   	std::vector<int> idx;
@@ -103,41 +106,33 @@ void reprojectTo_show(cv::Mat img,std::vector<Eigen::Vector3f> laser_points,std:
        		for (int j = 0; j < pts_uv.size(); ++j) 
             {
 		  		cv::Point paint_point; 
-	      		if(idx[j]%2==0)
-	      		{  
-		     		paint_point.x=int(pts_uv[j].x);
-		     		paint_point.y=int(pts_uv[j].y-10);
-	      		}
-	      		else
-	      		{	
-		     		paint_point.x=int(pts_uv[j].x);
-		     		paint_point.y=int(pts_uv[j].y+10);
-	      		}
 		  		if(j == 0)
 		  		{
-			  		paint_point.x=int(pts_uv[j].x - 80);
-		      		paint_point.y=int(pts_uv[j].y + 30);
+			  		paint_point.x = int(pts_uv[j].x - 50);
+		      		paint_point.y = int(pts_uv[j].y + 30);
 		  	  		string ss =  "left:"+std::to_string(idx[j]);
-		      		cv::putText(img, ss, paint_point ,cv::FONT_HERSHEY_SIMPLEX, 0.5, CV_RGB(255,255, 0), 2, 8); 
+		      		cv::putText(img, ss, paint_point ,cv::FONT_HERSHEY_SIMPLEX, 0.5, CV_RGB(255,255, 0), 1, 8); 
 			  		cv::circle(img, pts_uv[j], 3, CV_RGB(0,0,255),2,8);
 		 		}
 		  		else if(j == pts_uv.size() - 1)
 		  		{
 			  		paint_point.x=int(pts_uv[j].x);
-		      		paint_point.y=int(pts_uv[j].y + 30);
+		      		paint_point.y=int(pts_uv[j].y - 30);
 			  		string ss =  "right:"+std::to_string(idx[j]);
-		      		cv::putText(img, ss, paint_point ,cv::FONT_HERSHEY_SIMPLEX, 0.5, CV_RGB(255,255, 0), 2, 8); 
+		      		cv::putText(img, ss, paint_point ,cv::FONT_HERSHEY_SIMPLEX, 0.5, CV_RGB(255,255, 0), 1, 8); 
 			  		cv::circle(img, pts_uv[j], 3, CV_RGB(0,0,255),2,8);
 		  		}
 		  		else
 		  		{		
-		      		cv::circle(img, pts_uv[j], 3, CV_RGB(255,255,0),-1,8);  //图像；圆心坐标；圆半径；圆颜色；圆线条的粗细，负数为填充效果；线条类型
-	          		cv::putText(img, std::to_string(idx[j]), paint_point ,cv::FONT_HERSHEY_SIMPLEX, 0.3, CV_RGB(0,0, 255), 1, 8);
+		      		// cv::circle(img, pts_uv[j], 3, CV_RGB(255,255,0),-1,8);  //图像；圆心坐标；圆半径；圆颜色；圆线条的粗细，负数为填充效果；线条类型
+	          		// cv::putText(img, std::to_string(idx[j]), paint_point ,cv::FONT_HERSHEY_SIMPLEX, 0.3, CV_RGB(0,0, 255), 1, 8);
 		  		}
 	   		}
-	   		string sf = "main coor_y:" + std::to_string(int(count_coor_y / pts_uv.size() + 0.5));
-	   		cv::Point p_point(280,280); 
-	   		cv::putText(img, sf, p_point ,cv::FONT_HERSHEY_SIMPLEX, 0.5, CV_RGB(255,255, 0), 1, 8);
+			cv::Point pointk;
+			pointk.x = int(pts_uv[pts_uv.size() / 2].x - 10);
+		    pointk.y = int(pts_uv[pts_uv.size() / 2].y - 10);
+			string sentance =  "segment:"+std::to_string(seg_num);
+	   		cv::putText(img,sentance,pointk,cv::FONT_HERSHEY_SIMPLEX, 0.5, CV_RGB(0,0,255), 1, 8); 
 	   		cv::line(img,pts_uv.front(),pts_uv.back(),CV_RGB(255,0,0),0.3,8);
        		pts_uv.clear();
        		idx.clear();
