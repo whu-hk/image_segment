@@ -10,8 +10,6 @@
   <!-- 分割反投影节点-->
   <node name="image_segment_node" pkg="image_segment" type="image_segment_node"  output="screen">
 	  <param name="begin_ray_id_" type="int" value="150" />
-	  <param name="topic_laser_seg_"  type="string" value="insight_laser_seg" />
-	  <param name="topic_detect_img_" type="string"  value="cropped_detection_Image" />
   </node>
 </launch>
 

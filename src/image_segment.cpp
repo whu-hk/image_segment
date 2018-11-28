@@ -3,10 +3,8 @@
 int main(int argc,char **argv)
 {
    ros::init(argc, argv, "laser_image");
-   ros::NodeHandle nh("");
+   ros::NodeHandle nh("~");
    nh.param<int>("begin_Rayid",begin_ray_id_,150);
-   nh.param<string>("laser_SegTopic",topic_laser_seg_,"insight_laser_seg");
-   nh.param<string>("detect_ImgTopic",topic_detect_img_,"cropped_detection_Image");
    ROS_INFO("start cropped_detection_Image & insight_laser_seg subscribe");
    message_filters::Subscriber<laser_segment::Insight_lidar_segments> segment_sub(nh, topic_laser_seg_, 1);         
    message_filters::Subscriber<sensor_msgs::Image> image_sub(nh,topic_detect_img_, 1); 

@@ -33,8 +33,8 @@ cv::Mat D = (Mat_<double>(4,1) << -0.0541737, -0.761986, 3.11624, -3.69709);
 
 cv::Mat global_img_;
 int begin_ray_id_;
-string topic_detect_img_;
-string topic_laser_seg_;
+string topic_detect_img_ = "insight_laser_seg";
+string topic_laser_seg_ = "cropped_detection_Image";
 std_msgs::Header global_header_;
 
 typedef Eigen::Matrix < double, 3, 1> Vector3f;
