@@ -92,5 +92,5 @@ catkin_package(
 
 include_directories(include ${catkin_INCLUDE_DIRS} ${OpenCV_INCLUDE_DIRS} ${EIGEN3_INCLUDE_DIRS} ${ARMADILLO_INCLUDE_DIRS} ${Boost_INCLUDE_DIRS}) 
 add_executable(image_segment_node src/image_segment.cpp)
-target_link_libraries(image_segment_node ${catkin_LIBRARIES} ${OpenCV_LIBRARIES} ${EIGEN3_INCLUDE_DIRS} ${ARMADILLO_INCLUDE_DIRS} ${Boost_INCLUDE_DIRS})
+target_link_libraries(image_segment_node ${catkin_LIBRARIES} ${OpenCV_LIBRARIES} ${EIGEN3_LIBRARIES} ${ARMADILLO_LIBRARIES} ${Boost_LIBRARIES})
 add_dependencies(image_segment_node image_segment_generate_messages_cpp) 

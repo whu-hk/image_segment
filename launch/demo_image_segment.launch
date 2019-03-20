@@ -1,12 +1,12 @@
 <launch>
-  <!-- YOLOv3节点 -->
-  <include file="$(find darknet_ros)/launch/yolo_v3.launch"/>
-  <!-- 摄像头节点 -->
-  <include file="$(find usb_cam_opencv)/launch/usb_cam_opencv.launch"/> 
-  <!-- 雷达节点 -->
-  <include file="$(find rplidar_ros)/launch/rplidar.launch"/> 
+  <!-- param name="/use_sim_time" value="true" /-->
+  <!-- rosbag节点 -->
+  <!-- arg name="bagfile" default="/home/whu-hk/demo.bag"/-->
+  <node name="playbag" pkg="rosbag" type="play"  required="true" args="$(arg bag_filename)" />
   <!-- 雷达分割节点 -->
   <include file="$(find laser_segment)/launch/laser_segment.launch"/> 
+  <!-- 目标检测节点 -->
+  <include file="$(find darknet_ros)/launch/yolo_v3.launch"/> 
   <!-- 分割反投影节点-->
   <node name="image_segment_node" pkg="image_segment" type="image_segment_node"  output="screen">
 	  <param name="begin_Rayid" type="int" value="396" />
